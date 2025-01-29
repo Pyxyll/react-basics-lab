@@ -9,6 +9,8 @@ const Task = (props) => {
             <p className='desc'>{props.description}</p>
             <p className={props.priorityColor}>{props.priority}</p>
             <button onClick={props.markDone} className='doneButton'>Done</button>
+            <button className='deleteButton' onClick={props.deleteTask}>Delete</button>
+
 
         </div>
     )

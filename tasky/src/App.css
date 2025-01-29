@@ -49,3 +49,18 @@ div {
   padding: 10px;
   border-radius: 10px;
 }
+
+.red {
+  color: red;
+  font-weight: 900;
+}
+
+.orange {
+  color: orange;
+  font-weight: 900;
+}
+
+.green {
+  color: green;
+  font-weight: 900; 
+}

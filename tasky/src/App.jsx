@@ -1,8 +1,8 @@
 import "./App.css";
 import React, { useState } from "react";
 import Task from "./components/task";
-import AddTaskForm from './components/Form';
-
+import AddTaskForm from "./components/form";
+import { v4 as uuidv4 } from "uuid";
 
 function App() {
   const [taskState, setTaskState] = useState({
@@ -13,7 +13,6 @@ function App() {
         description: "Empty dishwasher",
         deadline: "Today",
         priority: "medium",
-        priorityColor: "orange",
         done: false,
       },
       {
@@ -22,7 +21,6 @@ function App() {
         description: "Fold clothes and put away",
         deadline: "Tomorrow",
         priority: "low",
-        priorityColor: "green",
         done: false,
       },
       {
@@ -31,23 +29,63 @@ function App() {
         description: "Organize living room",
         deadline: "Today",
         priority: "high",
-        priorityColor: "red",
         done: false,
       },
     ],
   });
 
+  const [formState, setFormState] = useState({
+    title: "",
+    description: "",
+    deadline: "",
+  });
+
   const doneHandler = (taskIndex) => {
     const tasks = [...taskState.tasks];
     tasks[taskIndex].done = !tasks[taskIndex].done;
-    setTaskState({tasks});
-  }
+    setTaskState({ tasks });
+  };
 
   const deleteHandler = (taskIndex) => {
     const tasks = [...taskState.tasks];
     tasks.splice(taskIndex, 1);
-    setTaskState({tasks});
-  } 
+    setTaskState({ tasks });
+  };
+
+  const formChangeHandler = (event) => {
+    let form = { ...formState };
+
+    switch (event.target.name) {
+      case "title":
+        form.title = event.target.value;
+        break;
+      case "description":
+        form.description = event.target.value;
+        break;
+      case "deadline":
+        form.deadline = event.target.value;
+        break;
+      case "priority":
+        form.priority = event.target.value;
+        break;
+      default:
+        form = formState;
+    }
+    setFormState(form);
+  };
+  console.log(formState);
+
+  const formSubmitHandler = (event) => {
+    event.preventDefault();
+
+    const tasks = [...taskState.tasks];
+    const form = { ...formState };
+
+    form.id = uuidv4();
+
+    tasks.push(form);
+    setTaskState({ tasks });
+  };
 
   return (
     <div className="container">
@@ -58,15 +96,13 @@ function App() {
           description={task.description}
           deadline={task.deadline}
           priority={task.priority}
-          priorityColor={task.priorityColor}
           key={task.id}
           done={task.done}
           markDone={() => doneHandler(index)}
-          deleteTask = {() => deleteHandler(index)}
-
+          deleteTask={() => deleteHandler(index)}
         />
       ))}
-      <AddTaskForm />
+      <AddTaskForm submit={formSubmitHandler} change={formChangeHandler} />
     </div>
   );
 }

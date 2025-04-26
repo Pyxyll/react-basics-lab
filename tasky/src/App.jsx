@@ -8,11 +8,11 @@ function App() {
   
   const [ taskState, setTaskState ] = useState({tasks: []});
 
-  useEffect(() => {
-      getTasks().then(tasks => {
-        setTaskState({tasks: tasks});
-      });
-    }, []);	
+useEffect(() => {
+    getTasks().then(tasks => {
+      setTaskState({tasks: tasks});
+    });
+  }, []);	
   
     const [ formState, setFormState ] = useState({
       title: "",
